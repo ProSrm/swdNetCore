@@ -1,0 +1,4 @@
+dotnet run
+dotnet build
+dotnet clean
+dotnet publish -c Release -o ./publish  
