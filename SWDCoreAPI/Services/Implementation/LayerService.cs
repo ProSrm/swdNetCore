@@ -22,4 +22,18 @@ public class LayerService : ILayerService
     {
         return await _layerRepository.LoginToPortal(data);
     }
+    public async Task<int> UpdateUser(UserModel data)
+    {
+        return await _layerRepository.UpdateUser(data);
+    }
+
+    public async Task<List<UserModel>> GetAllUsers()
+    {
+        return await _layerRepository.GetAllUsers();
+    }
+
+    public Task<int> SignupUser(SignupModel data)
+    {
+        throw new NotImplementedException();
+    }
 }

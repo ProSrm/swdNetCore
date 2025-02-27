@@ -152,11 +152,66 @@ public class LayerController : ControllerBase
         {
             return Ok(new { message = "User logged in successfully." });
         }
+
+
         else
         {
             return Unauthorized(new { message = "Invalid username or password." });
         }
     }
 
+    [HttpPost("signup")]
+    public async Task<IActionResult> Signup([FromBody] SignupModel data)
+    {
+        if (data == null)
+        {
+            return BadRequest(new { message = "Invalid input." });
+        }
 
+        if (data.Password != data.ConfirmPassword)
+        {
+            return BadRequest(new { message = "Passwords do not match." });
+        }
+
+        var result = await _layerService.SignupUser(data);
+
+        if (result == -1)
+        {
+            return Conflict(new { message = "Email already exists." });
+        }
+
+        return Ok(new { message = "User registered successfully." });
+    }
+
+
+    [HttpGet("users")]
+    public async Task<IActionResult> GetAllUsers()
+   {
+        var users = await _layerService.GetAllUsers();
+        return Ok(users);
+    }
+
+
+    [HttpPut("update")]
+    public async Task<IActionResult> UpdateUser([FromBody] UserModel data)
+    {
+        if (data == null)
+        {
+            return BadRequest(new { message = "Invalid input." });
+        }
+
+        var result = await _layerService.UpdateUser(data);
+
+        if (result == -1)
+        {
+            return NotFound(new { message = "User not found." });
+        }
+
+        if (result == -2)
+        {
+            return Conflict(new { message = "Email already exists for another user." });
+        }
+
+        return Ok(new { message = "User updated successfully." });
+    }
 }

@@ -7,5 +7,9 @@ public interface ILayerRepository
     Task<string> GetLayerType(string layerName);
     Task<int> AddOrUpdateLayer(LayerFormData data);
     Task<int> LoginToPortal(Login data);
+    Task<int> SignupUser(SignupModel data);
+    Task<int> UpdateUser(UserModel data);
+
+    Task<List<UserModel>> GetAllUsers();
 
 }
