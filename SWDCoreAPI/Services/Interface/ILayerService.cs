@@ -8,5 +8,6 @@ public interface ILayerService
     Task<int> LoginToPortal(Login data);
     Task<int> SignupUser(SignupModel data);
     Task<int> UpdateUser(UserModel data);
+    Task<int> DeleteUser(int id);
     Task<List<UserModel>> GetAllUsers();
 }

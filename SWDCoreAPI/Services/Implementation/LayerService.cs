@@ -32,8 +32,12 @@ public class LayerService : ILayerService
         return await _layerRepository.GetAllUsers();
     }
 
-    public Task<int> SignupUser(SignupModel data)
+    public async Task<int> SignupUser(SignupModel data)
     {
-        throw new NotImplementedException();
+        return await _layerRepository.SignupUser(data);
+    }
+    public async Task<int> DeleteUser(int id)
+    {
+        return await _layerRepository.DeleteUser(id);
     }
 }

@@ -186,7 +186,7 @@ public class LayerController : ControllerBase
 
     [HttpGet("users")]
     public async Task<IActionResult> GetAllUsers()
-   {
+    {
         var users = await _layerService.GetAllUsers();
         return Ok(users);
     }
@@ -213,5 +213,23 @@ public class LayerController : ControllerBase
         }
 
         return Ok(new { message = "User updated successfully." });
+    }
+
+    [HttpDelete("delete/{id}")]
+    public async Task<IActionResult> DeleteUser(int id)
+    {
+        if (id <= 0)
+        {
+            return BadRequest(new { message = "Invalid user ID." });
+        }
+
+        var result = await _layerService.DeleteUser(id);
+
+        if (result == -1)
+        {
+            return NotFound(new { message = "User not found." });
+        }
+
+        return Ok(new { message = "User deleted successfully." });
     }
 }

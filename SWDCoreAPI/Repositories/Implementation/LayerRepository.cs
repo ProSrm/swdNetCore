@@ -58,7 +58,7 @@ public class LayerRepository : ILayerRepository
             using (SqlCommand cmd = new SqlCommand("spLoginToPortal", conn))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@UserName", data.UserName);
+                cmd.Parameters.AddWithValue("@Email", data.UserName);
                 cmd.Parameters.AddWithValue("@Password", data.Password);
 
 
@@ -158,6 +158,28 @@ public class LayerRepository : ILayerRepository
                 await cmd.ExecuteNonQueryAsync();
 
 
+                int status = (int)statusParam.Value;
+
+                return status;
+            }
+        }
+    }
+    public async Task<int> DeleteUser(int id)
+    {
+        using (SqlConnection conn = new SqlConnection(_connectionString))
+        {
+            await conn.OpenAsync();
+
+            using (SqlCommand cmd = new SqlCommand("spDeleteUser", conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", id);
+
+                SqlParameter statusParam = new SqlParameter("@Status", SqlDbType.Int);
+                statusParam.Direction = ParameterDirection.Output;
+                cmd.Parameters.Add(statusParam);
+
+                await cmd.ExecuteNonQueryAsync();
                 int status = (int)statusParam.Value;
 
                 return status;
